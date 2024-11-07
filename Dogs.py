@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter import messagebox as mb
+from tkinter import ttk
 import requests
 from PIL import Image, ImageTk
 from io import BytesIO
@@ -30,6 +31,13 @@ def show_image():
             label.image = img
         except Exception as e:
             mb.showerror("Ошибка", f"Возникла ошибка при загрузки изображения {e}")
+    progress.stop()
+
+
+def prog():
+    progress['value'] = 0
+    progress.start(30)
+    window.after(2000, show_image)
 
 
 
@@ -37,11 +45,13 @@ window = Tk()
 window.title("Картинки с собачками")
 window.geometry("360x420")
 
-
-label = Label()
+label = ttk.Label()
 label.pack(pady=10)
 
-button = Button(text="Загрузить изображение", command=show_image)
+button = ttk.Button(text="Загрузить изображение", command=prog)
 button.pack(pady=10)
+
+progress = ttk.Progressbar(mode="determinate", length=300)
+progress.pack(pady=10)
 
 window.mainloop()
